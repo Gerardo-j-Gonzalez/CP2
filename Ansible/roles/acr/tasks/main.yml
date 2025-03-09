@@ -1,0 +1,15 @@
+vars:
+  app_image: "nginxdemos/hello"
+  app_repo: "hello-nginx"
+
+
+- name: Login to ACR
+  shell: |
+    az acr login --name {{ acr_name }}
+
+
+- name: Pull, build, tag and push image to ACR
+  shell: |
+    docker pull {{ app_image }}
+    docker tag {{ app_image }} {{ acr_name }}.azurecr.io/{{ app_repo }}:latest
+    docker push {{ acr_name }}.azurecr.io/{{ app_repo }}:latest

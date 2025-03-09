@@ -1,0 +1,14 @@
+- name: Install Podman
+  apt:
+    name: podman
+    state: present
+  become: true
+
+- name: Run Webserver Container
+  containers.podman.podman_container:
+    name: webserver
+    image: "{{ acr_name }}.azurecr.io/ubuntu:latest"
+    state: started
+    ports:
+      - "80:80"
+    

@@ -1,0 +1,4 @@
+- name: Deploy app to AKS
+  shell: |
+    az aks get-credentials --resource-group terraform-rg --name aks-casopractico2
+    kubectl apply -f deployment.yml
