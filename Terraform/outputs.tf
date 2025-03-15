@@ -1,9 +1,10 @@
-output "resource_group_name" {
-  description = "Nombre del grupo de recursos creado"
-  value       = azurerm_resource_group.rg.name
+output "aks_cluster_name" {
+  description = "Nombre del Cluster de Kubernetes"
+  value       = azurerm_kubernetes_cluster.aks.name
 }
 
-output "resource_group_location" {
-  description = "Ubicación del grupo de recursos"
-  value       = azurerm_resource_group.rg.location
+output "aks_kube_config" {
+  description = "Configuración Kubeconfig para conectarse al cluster"
+  value       = azurerm_kubernetes_cluster.aks.kube_config_raw
+  sensitive   = true
 }

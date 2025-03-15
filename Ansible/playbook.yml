@@ -1,27 +1,13 @@
-- name: Setup ACR and images
+- name: Configurar Nginx en Kubernetes
   hosts: localhost
-  vars_files:
-    - secrets.yml
+  become: yes
   tasks:
-    - name: Pull, build, tag and push images to ACR
-      include_role:
-        name: acr
+    - name: Copiar archivos de configuración
+      copy:
+        src: ./nginx-deployment.yaml
+        dest: /home/azureuser/terraform/aks/nginx-deployment.yaml
 
-- name: Setup Webserver
-  hosts: webserver
-  vars_files:
-    - secrets.yml
-  tasks:
-    - name: Configure VM with Podman and deploy web server
-      include_role:
-        name: vm
-
-- name: Setup AKS
-  hosts: localhost
-  vars_files:
-    - secrets.yml
-  tasks:
-    - name: Deploy app to AKS
-      include_role:
-        name: aks
-        
+    - name: Aplicar configuración de Kubernetes
+      shell: |
+        kubectl apply -f /home/azureuser/terraform/aks/nginx-deployment.yaml
+        kubectl apply -f /home/azureuser/terraform/aks/nginx-service.yaml
